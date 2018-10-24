@@ -1,2 +1,7 @@
-# ECE366Group10Project3
+# ECE366 Group10 Project 3
 
+## Members
+
+### Justino Almazan
+### Amaan Baiyat
+### Aberto Espinoza
