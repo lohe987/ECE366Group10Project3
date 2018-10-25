@@ -14,6 +14,16 @@ def file_to_array(file):
     return return_array
 
 
+def execute_operation(opcode, data_mem, reg_arr, special_reg_arr, pc):
+    if(opcode[1:4] == "000"):
+        # ADD instruction
+        rd = int(format(int(opcode[4:6], 2)))
+        rs = int(format(int(opcode[6:8], 2)))
+        # rd = rd + rs
+        reg_arr[rd] += reg_arr[rs]
+    return [data_mem, reg_arr, special_reg_arr, pc]
+
+
 # simulator: Simulates the ISA
 # Inputs:   program_name - name of the program that gets printed
 #           instr_mem_file - name of the instruction file that
@@ -23,7 +33,7 @@ def file_to_array(file):
 def simulator(program_name, instr_mem_file, data_mem_file):
     # Initialize pc and register array
     pc = 0
-    reg_arr = [0, 0, 0, 0]
+    reg_arr = [0, 0, 40, 5]
     special_reg_arr = [0, 0, 0, 0]
 
     print(program_name)
@@ -35,8 +45,17 @@ def simulator(program_name, instr_mem_file, data_mem_file):
     instr_mem = file_to_array(instr_mem_input)
     data_mem = file_to_array(data_mem_input)
 
-    print(instr_mem)
-    print(data_mem)
+    for pc in range(0, len(instr_mem)):
+        # data_set is of the following format:
+        # [data_mem, reg_arr, special_reg_arr, pc]
+        opcode = instr_mem[pc]
+        data_set = execute_operation(opcode, data_mem, reg_arr, special_reg_arr, pc)
+        pc = data_set[3]
+        print(data_set[1])
+
+
+    #print(instr_mem)
+    #print(data_mem)
 
 
 simulator("Program 1 : Modular Exponentiation",
