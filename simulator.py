@@ -1,1 +1,0 @@
-print("ECE 366 Group 10 Project 3 ISA Simulator")
