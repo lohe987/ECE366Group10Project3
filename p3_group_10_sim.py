@@ -24,9 +24,11 @@ def simulator(program_name, instr_mem_file, data_mem_file):
     # Initialize pc and register array
     pc = 0
     reg_arr = [0, 0, 0, 0]
+    special_reg_arr = [0, 0, 0, 0]
 
     print(program_name)
 
+    # Create file variables from file name strings
     instr_mem_input = open(instr_mem_file, "r")
     data_mem_input = open(data_mem_file, "r")
 
