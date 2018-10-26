@@ -26,7 +26,7 @@ def execute_operation(opcode, data_mem, reg_arr, special_reg_arr, pc):
         rd = int(format(int(opcode[4:6], 2)))
         imm = int(format(int(opcode[6:8], 10)))
         # rd = rd + imm
-        reg_arr[rd] += reg_arr[imm]
+        reg_arr[rd] += imm
     elif(opcode[1:4] == "010"):
         #SLT instruction
         rd = int(format(int(opcode[4:6], 2)))
@@ -36,6 +36,16 @@ def execute_operation(opcode, data_mem, reg_arr, special_reg_arr, pc):
             branch=1
         elif(rd > rs || rd == rs):
             branch=0
+    elif(opcode[1:4] == "100"):
+        imm = int(format(int(opcode[4:8], 10)))
+        #b instruction (branch)
+        if(branch ==  1):
+            pc+=imm
+        #this instruction will branch based on SLT being true
+        elif(branch == 0):
+            pc+=1
+    elif(opcode[1:4] == "011"):
+        #instruction for jumping number of lines to new line location in program
     return [data_mem, reg_arr, special_reg_arr, pc]
 
 
