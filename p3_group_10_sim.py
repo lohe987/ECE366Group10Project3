@@ -21,6 +21,21 @@ def execute_operation(opcode, data_mem, reg_arr, special_reg_arr, pc):
         rs = int(format(int(opcode[6:8], 2)))
         # rd = rd + rs
         reg_arr[rd] += reg_arr[rs]
+    elif(opcode[1:4] == "001"):
+        #ADDI instruction
+        rd = int(format(int(opcode[4:6], 2)))
+        imm = int(format(int(opcode[6:8], 10)))
+        # rd = rd + imm
+        reg_arr[rd] += reg_arr[imm]
+    elif(opcode[1:4] == "010"):
+        #SLT instruction
+        rd = int(format(int(opcode[4:6], 2)))
+        rs = int(format(int(opcode[6:8], 2)))
+        #check if rd is smaller or not
+        if(rd < rs):
+            branch=1
+        elif(rd > rs || rd == rs):
+            branch=0
     return [data_mem, reg_arr, special_reg_arr, pc]
 
 
