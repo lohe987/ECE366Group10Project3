@@ -46,6 +46,32 @@ def execute_operation(opcode, data_mem, reg_arr, special_reg_arr, pc):
             pc+=1
     elif(opcode[1:4] == "011"):
         #instruction for jumping number of lines to new line location in program
+        imm = int(format(int(opcode[4:8], 10)))
+        #the immediate number is number of lines ahead/backward pc will travel
+        pc+=imm
+    elif(opcode[1:5] == "1010"):
+        #load instruction
+        rd = int(format(int(opcode[5:7], 2)))
+        rs = int(format(int(opcode[7:8], 2)))
+        #rd = mem[rs]
+        reg_arr[rd] = data_mem[rs]
+    elif(opcode[1:5] == "1011"):
+        #store instruction
+        rd = int(format(int(opcode[5:7], 2)))
+        rs = int(format(int(opcode[7:8], 2)))
+        #mem[rs] = rd
+        data_mem[rs] = reg_arr[rd]
+    elif(opcode[1:6] == "11000"):
+        #left shift logic instruction
+        rd = int(format(int(opcode[6:8], 2)))
+        reg_arr[rd] *=2
+        #multiply the register by 2
+    elif(opcode[1:6] == "11001"):
+        #nxor instruction
+        rd = int(format(int(opcode[6:7], 2)))
+        rs = int(format(int(opcode[7:8], 2)))
+        #this line below nots an xor
+        reg_arr[rd] = not(reg_arr[rd] ^ reg_arr[rs])
     return [data_mem, reg_arr, special_reg_arr, pc]
 
 
