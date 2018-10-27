@@ -15,18 +15,27 @@ def file_to_array(file):
 
 
 def execute_operation(opcode, data_mem, reg_arr, special_reg_arr, pc):
+
     if(opcode[1:4] == "000"):
         # ADD instruction
         rd = int(format(int(opcode[4:6], 2)))
         rs = int(format(int(opcode[6:8], 2)))
         # rd = rd + rs
         reg_arr[rd] += reg_arr[rs]
+        print(reg_arr[rd])
     elif(opcode[1:4] == "001"):
         #ADDI instruction
         rd = int(format(int(opcode[4:6], 2)))
-        imm = int(format(int(opcode[6:8], 10)))
+        if(opcode[6][0] =='1'):                #check if MSB in imm is 1
+            imm = int(opcode[6:8],2)    
+            imm = int(format(imm - 4))            #convert 2's compliment to decimal
+        else:
+            imm = int(format(int(opcode[6:8], 2)))   #if MSB in imm is 0 
+        
+        print(imm)
         # rd = rd + imm
         reg_arr[rd] += imm
+        
     elif(opcode[1:4] == "010"):
         #SLT instruction
         rd = int(format(int(opcode[4:6], 2)))
@@ -34,10 +43,14 @@ def execute_operation(opcode, data_mem, reg_arr, special_reg_arr, pc):
         #check if rd is smaller or not
         if(rd < rs):
             branch=1
-        elif(rd > rs || rd == rs):
+        elif(rd > rs or rd == rs):
             branch=0
     elif(opcode[1:4] == "100"):
-        imm = int(format(int(opcode[4:8], 10)))
+        if(opcode[4][0] =='1'):                #check if MSB in imm is 1
+            imm = int(opcode[4:8],2)    
+            imm = int(format(imm - 16))            #convert 2's compliment to decimal
+        else:
+            imm = int(format(int(opcode[4:8], 2)))   #if MSB in imm is 0 
         #b instruction (branch)
         if(branch ==  1):
             pc+=imm
@@ -45,8 +58,13 @@ def execute_operation(opcode, data_mem, reg_arr, special_reg_arr, pc):
         elif(branch == 0):
             pc+=1
     elif(opcode[1:4] == "011"):
+        #J instruction
         #instruction for jumping number of lines to new line location in program
-        imm = int(format(int(opcode[4:8], 10)))
+        if(opcode[4][0] =='1'):                #check if MSB in imm is 1
+            imm = int(opcode[4:8],2)    
+            imm = int(format(imm - 16))            #convert 2's compliment to decimal
+        else:
+            imm = int(format(int(opcode[4:8], 2)))   #if MSB in imm is 0 
         #the immediate number is number of lines ahead/backward pc will travel
         pc+=imm
     elif(opcode[1:5] == "1010"):
@@ -73,6 +91,7 @@ def execute_operation(opcode, data_mem, reg_arr, special_reg_arr, pc):
         #this line below nots an xor
         reg_arr[rd] = not(reg_arr[rd] ^ reg_arr[rs])
     elif(opcode[1:6] == "11010"):
+        #EQZ instrustion
         #this is the instruction for checking if rd = 0
         rd = int(format(int(opcode[6:8], 2)))
         if (rd == 0):
@@ -81,26 +100,35 @@ def execute_operation(opcode, data_mem, reg_arr, special_reg_arr, pc):
             branch = 0
             pc+=1
     elif(opcode[1:6] == "11011"):
+        #COMP instruction
         #This performs the 2's complement of a number
         rd = int(format(int(opcode[6:8], 2)))
         reg_arr[rd] = -1*(rd)
     elif(opcode[1:6] == "11100"):
+        #RCVP instruction
         #This retrieves $rd from a special register $srd
         rd = int(format(int(opcode[6:8], 2)))
         reg_arr[rd] = special_reg_arr[rd]
         #our regular register recieves specially stored values in a different array of registers
     elif(opcode[1:6] == "11101"):
+        #RST instruction
         #this resets rd to equal 0
         rd = int(format(int(opcode[6:8], 2)))
         reg_arr[rd] = 0  #reset
     elif(opcode[1:6] == "11110"):
+        #STSH instruction
         #This saves value in rd to array of special registers indicated in srd
         #for example   reg_arr [0  1  2   rd]  rd is at location reg_arr[3]
         #so this "stashes" into special_reg_arr[3] as well in special_reg_arr[0 1 2 rd]
+        rd = int(format(int(line[6:8],2)))
         special_reg_arr[rd] = reg_arr[rd]
     elif(opcode == "01111110"):
-        for(a=0; a<8; a+1):
+        #END
+        for a in range(8):
+            a+=1
             #we need to determine how to pass rd into this function
+            
+            
     #need to update pc by 1 every cycle
     return [data_mem, reg_arr, special_reg_arr, pc]
 
@@ -125,7 +153,7 @@ def simulator(program_name, instr_mem_file, data_mem_file):
 
     instr_mem = file_to_array(instr_mem_input)
     data_mem = file_to_array(data_mem_input)
-
+    
     for pc in range(0, len(instr_mem)):
         # data_set is of the following format:
         # [data_mem, reg_arr, special_reg_arr, pc]
@@ -143,6 +171,6 @@ simulator("Program 1 : Modular Exponentiation",
           "p3_group_10_p1_imem.txt",
           "p3_group_10_dmem_A.txt")
 
-simulator("Program 2 : Best Matching Count",
-          "p3_group_10_p2_imem.txt",
-          "p3_group_10_dmem_A.txt")
+#simulator("Program 2 : Best Matching Count",
+          #"p3_group_10_p2_imem.txt",
+          #"p3_group_10_dmem_A.txt")
