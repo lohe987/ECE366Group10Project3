@@ -21,8 +21,8 @@ def execute_operation(opcode, data_mem, reg_arr, special_reg_arr, pc, branch):
         rs = int(opcode[6:8], 2)
         # rd = rd + rs
         print(rs, rd)
-        print(reg_arr[rd])
-        reg_arr[rd] += reg_arr[rs]
+        print(reg_arr)
+        reg_arr[rd] += int(reg_arr[rs])
         pc += 1
     elif opcode[1:4] == "001":
         # ADDI instruction
@@ -66,7 +66,7 @@ def execute_operation(opcode, data_mem, reg_arr, special_reg_arr, pc, branch):
         rd = int(opcode[5:7], 2)
         rs = int(opcode[7:8], 2)
         # rd = mem[rs]
-        reg_arr[rd] = data_mem[rs]
+        reg_arr[rd] = int(data_mem[rs], 2)
         pc += 1
     elif opcode[1:5] == "1011":
         # store instruction
@@ -158,8 +158,14 @@ def simulator(program_name, instr_mem_file, data_mem_file):
         # [data_mem, reg_arr, special_reg_arr, pc, branch]
         opcode = instr_mem[pc]
         data_set = execute_operation(opcode, data_mem, reg_arr, special_reg_arr, pc, branch)
+        data_mem = data_set[0]
+        reg_arr = data_set[1]
+        special_reg_arr = data_set[2]
         pc = data_set[3]
-        print(data_set[1])
+        branch = data_set[4]
+        print(data_set[3])
+        print(data_set[2])
+        print(opcode)
 
 
     #print(instr_mem)
