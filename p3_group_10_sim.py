@@ -72,6 +72,36 @@ def execute_operation(opcode, data_mem, reg_arr, special_reg_arr, pc):
         rs = int(format(int(opcode[7:8], 2)))
         #this line below nots an xor
         reg_arr[rd] = not(reg_arr[rd] ^ reg_arr[rs])
+    elif(opcode[1:6] == "11010"):
+        #this is the instruction for checking if rd = 0
+        rd = int(format(int(opcode[6:8], 2)))
+        if (rd == 0):
+            branch = 1
+        else:
+            branch = 0
+            pc+=1
+    elif(opcode[1:6] == "11011"):
+        #This performs the 2's complement of a number
+        rd = int(format(int(opcode[6:8], 2)))
+        reg_arr[rd] = -1*(rd)
+    elif(opcode[1:6] == "11100"):
+        #This retrieves $rd from a special register $srd
+        rd = int(format(int(opcode[6:8], 2)))
+        reg_arr[rd] = special_reg_arr[rd]
+        #our regular register recieves specially stored values in a different array of registers
+    elif(opcode[1:6] == "11101"):
+        #this resets rd to equal 0
+        rd = int(format(int(opcode[6:8], 2)))
+        reg_arr[rd] = 0  #reset
+    elif(opcode[1:6] == "11110"):
+        #This saves value in rd to array of special registers indicated in srd
+        #for example   reg_arr [0  1  2   rd]  rd is at location reg_arr[3]
+        #so this "stashes" into special_reg_arr[3] as well in special_reg_arr[0 1 2 rd]
+        special_reg_arr[rd] = reg_arr[rd]
+    elif(opcode == "01111110"):
+        for(a=0; a<8; a+1):
+            #we need to determine how to pass rd into this function
+    #need to update pc by 1 every cycle
     return [data_mem, reg_arr, special_reg_arr, pc]
 
 
