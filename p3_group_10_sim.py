@@ -14,51 +14,46 @@ def file_to_array(file):
     return return_array
 
 
-def execute_operation(opcode, data_mem, reg_arr, special_reg_arr, pc):
-
-    if(opcode[1:4] == "000"):
+def execute_operation(opcode, data_mem, reg_arr, special_reg_arr, pc, branch):
+    if opcode[1:4] == "000":
         # ADD instruction
         rd = int(format(int(opcode[4:6], 2)))
         rs = int(format(int(opcode[6:8], 2)))
         # rd = rd + rs
         reg_arr[rd] += reg_arr[rs]
         print(reg_arr[rd])
-    elif(opcode[1:4] == "001"):
-        #ADDI instruction
+        pc += 1
+    elif opcode[1:4] == "001":
+        # ADDI instruction
         rd = int(format(int(opcode[4:6], 2)))
-        if(opcode[6][0] =='1'):                #check if MSB in imm is 1
-            imm = int(opcode[6:8],2)    
-            imm = int(format(imm - 4))            #convert 2's compliment to decimal
-        else:
-            imm = int(format(int(opcode[6:8], 2)))   #if MSB in imm is 0 
-        
-        print(imm)
-        # rd = rd + imm
-        reg_arr[rd] += imm
-        
-    elif(opcode[1:4] == "010"):
-        #SLT instruction
+        imm = int(format(int(opcode[6:8], 2)))
+        imm_values = [0, 1, -2, -1]
+        reg_arr[rd] += imm_values[imm]
+        pc += 1
+    elif opcode[1:4] == "010":
+        # SLT instruction
         rd = int(format(int(opcode[4:6], 2)))
         rs = int(format(int(opcode[6:8], 2)))
-        #check if rd is smaller or not
-        if(rd < rs):
-            branch=1
-        elif(rd > rs or rd == rs):
-            branch=0
-    elif(opcode[1:4] == "100"):
-        if(opcode[4][0] =='1'):                #check if MSB in imm is 1
-            imm = int(opcode[4:8],2)    
-            imm = int(format(imm - 16))            #convert 2's compliment to decimal
-        else:
-            imm = int(format(int(opcode[4:8], 2)))   #if MSB in imm is 0 
-        #b instruction (branch)
-        if(branch ==  1):
-            pc+=imm
-        #this instruction will branch based on SLT being true
-        elif(branch == 0):
-            pc+=1
+        # check if rd is smaller or not
+        rd = reg_arr[rd]
+        rs = reg_arr[rs]
+        if rd < rs:
+            branch = 1
+        elif rd > rs or rd == rs:
+            branch = 0
+        pc += 1
+    elif opcode[1:4] == "100":
+        imm = int(opcode[4:8], 2)
+        imm_values = [0, 1, 2, 3, 4, 5, 6, 7, -8, -7, -6, -5, -4, -3, -2, 1]
+        imm = imm_values[imm]
+        # b instruction (branch)
+        if branch ==  1:
+            pc += imm
+        # this instruction will branch based on SLT being true
+        elif branch == 0:
+            pc += 1
     elif(opcode[1:4] == "011"):
-        #J instruction
+        # J instruction
         #instruction for jumping number of lines to new line location in program
         if(opcode[4][0] =='1'):                #check if MSB in imm is 1
             imm = int(opcode[4:8],2)    
@@ -120,7 +115,7 @@ def execute_operation(opcode, data_mem, reg_arr, special_reg_arr, pc):
         #This saves value in rd to array of special registers indicated in srd
         #for example   reg_arr [0  1  2   rd]  rd is at location reg_arr[3]
         #so this "stashes" into special_reg_arr[3] as well in special_reg_arr[0 1 2 rd]
-        rd = int(format(int(line[6:8],2)))
+        rd = int(format(int(opcode[6:8],2)))
         special_reg_arr[rd] = reg_arr[rd]
     elif(opcode == "01111110"):
         #END
@@ -130,7 +125,7 @@ def execute_operation(opcode, data_mem, reg_arr, special_reg_arr, pc):
             
             
     #need to update pc by 1 every cycle
-    return [data_mem, reg_arr, special_reg_arr, pc]
+    return [data_mem, reg_arr, special_reg_arr, pc, branch]
 
 
 # simulator: Simulates the ISA
@@ -142,6 +137,7 @@ def execute_operation(opcode, data_mem, reg_arr, special_reg_arr, pc):
 def simulator(program_name, instr_mem_file, data_mem_file):
     # Initialize pc and register array
     pc = 0
+    branch = 0
     reg_arr = [0, 0, 40, 5]
     special_reg_arr = [0, 0, 0, 0]
 
@@ -153,12 +149,12 @@ def simulator(program_name, instr_mem_file, data_mem_file):
 
     instr_mem = file_to_array(instr_mem_input)
     data_mem = file_to_array(data_mem_input)
-    
-    for pc in range(0, len(instr_mem)):
+
+    while pc < len(instr_mem):
         # data_set is of the following format:
-        # [data_mem, reg_arr, special_reg_arr, pc]
+        # [data_mem, reg_arr, special_reg_arr, pc, branch]
         opcode = instr_mem[pc]
-        data_set = execute_operation(opcode, data_mem, reg_arr, special_reg_arr, pc)
+        data_set = execute_operation(opcode, data_mem, reg_arr, special_reg_arr, pc, branch)
         pc = data_set[3]
         print(data_set[1])
 
