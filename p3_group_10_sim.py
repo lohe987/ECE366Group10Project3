@@ -17,23 +17,24 @@ def file_to_array(file):
 def execute_operation(opcode, data_mem, reg_arr, special_reg_arr, pc, branch):
     if opcode[1:4] == "000":
         # ADD instruction
-        rd = int(format(int(opcode[4:6], 2)))
-        rs = int(format(int(opcode[6:8], 2)))
+        rd = int(opcode[4:6], 2)
+        rs = int(opcode[6:8], 2)
         # rd = rd + rs
-        reg_arr[rd] += reg_arr[rs]
+        print(rs, rd)
         print(reg_arr[rd])
+        reg_arr[rd] += reg_arr[rs]
         pc += 1
     elif opcode[1:4] == "001":
         # ADDI instruction
-        rd = int(format(int(opcode[4:6], 2)))
-        imm = int(format(int(opcode[6:8], 2)))
+        rd = int(opcode[4:6], 2)
+        imm = int(opcode[6:8], 2)
         imm_values = [0, 1, -2, -1]
         reg_arr[rd] += imm_values[imm]
         pc += 1
     elif opcode[1:4] == "010":
         # SLT instruction
-        rd = int(format(int(opcode[4:6], 2)))
-        rs = int(format(int(opcode[6:8], 2)))
+        rd = int(opcode[4:6], 2)
+        rs = int(opcode[6:8], 2)
         # check if rd is smaller or not
         rd = reg_arr[rd]
         rs = reg_arr[rs]
@@ -43,7 +44,7 @@ def execute_operation(opcode, data_mem, reg_arr, special_reg_arr, pc, branch):
             branch = 0
         pc += 1
     elif opcode[1:4] == "100":
-        imm = int(format(int(opcode[4:8], 2)))
+        imm = int(opcode[4:8], 2)
         imm_values = [0, 1, 2, 3, 4, 5, 6, 7, -8, -7, -6, -5, -4, -3, -2, 1]
         imm = imm_values[imm]
         # b instruction (branch)
@@ -56,42 +57,42 @@ def execute_operation(opcode, data_mem, reg_arr, special_reg_arr, pc, branch):
         # J instruction
         # instruction for jumping number of lines to new line location in program
         # the immediate number is number of lines ahead/backward pc will travel
-        imm = int(format(int(opcode[4:8], 2)))
+        imm = int(opcode[4:8], 2)
         imm_values = [0, 1, 2, 3, 4, 5, 6, 7, -8, -7, -6, -5, -4, -3, -2, 1]
         imm = imm_values[imm]
         pc += imm
     elif opcode[1:5] == "1010":
         # load instruction
-        rd = int(format(int(opcode[5:7], 2)))
-        rs = int(format(int(opcode[7:8], 2)))
+        rd = int(opcode[5:7], 2)
+        rs = int(opcode[7:8], 2)
         # rd = mem[rs]
         reg_arr[rd] = data_mem[rs]
         pc += 1
     elif opcode[1:5] == "1011":
         # store instruction
-        rd = int(format(int(opcode[5:7], 2)))
-        rs = int(format(int(opcode[7:8], 2)))
+        rd = int(opcode[5:7], 2)
+        rs = int(opcode[7:8], 2)
         # mem[rs] = rd
         # TODO: Convert this into a 16 bit binary value to store back into the data_mem array
         data_mem[rs] = reg_arr[rd]
         pc += 1
     elif opcode[1:6] == "11000":
         # left shift logic instruction
-        rd = int(format(int(opcode[6:8], 2)))
+        rd = int(opcode[6:8], 2)
         # multiply the register by 2
         reg_arr[rd] *= 2
         pc += 1
     elif opcode[1:6] == "11001":
         # nxor instruction
-        rd = int(format(int(opcode[6:7], 2)))
-        rs = int(format(int(opcode[7:8], 2)))
+        rd = int(opcode[6:7], 2)
+        rs = int(opcode[7:8], 2)
         # this line below nots an xor
         reg_arr[rd] = not(reg_arr[rd] ^ reg_arr[rs])
         pc += 1
     elif opcode[1:6] == "11010":
         # EQZ instruction
         # this is the instruction for checking if rd = 0
-        rd = int(format(int(opcode[6:8], 2)))
+        rd = int(opcode[6:8], 2)
         if reg_arr[rd] == 0:
             branch = 1
         else:
@@ -100,20 +101,20 @@ def execute_operation(opcode, data_mem, reg_arr, special_reg_arr, pc, branch):
     elif opcode[1:6] == "11011":
         # COMP instruction
         # This performs the 2's complement of a number
-        rd = int(format(int(opcode[6:8], 2)))
+        rd = int(opcode[6:8], 2)
         reg_arr[rd] *= -1
         pc += 1
     elif opcode[1:6] == "11100":
         # RCVP instruction
         # This retrieves $rd from a special register $srd
-        rd = int(format(int(opcode[6:8], 2)))
+        rd = int(opcode[6:8], 2)
         # our regular register receives specially stored values in a different array of registers
         reg_arr[rd] = special_reg_arr[rd]
         pc += 1
     elif opcode[1:6] == "11101":
         # RST instruction
         # this resets rd to equal 0
-        rd = int(format(int(opcode[6:8], 2)))
+        rd = int(opcode[6:8], 2)
         reg_arr[rd] = 0  # reset
         pc += 1
     elif opcode[1:6] == "11110":
@@ -121,7 +122,7 @@ def execute_operation(opcode, data_mem, reg_arr, special_reg_arr, pc, branch):
         # This saves value in rd to array of special registers indicated in srd
         # for example   reg_arr [0  1  2   rd]  rd is at location reg_arr[3]
         # so this "stashes" into special_reg_arr[3] as well in special_reg_arr[0 1 2 rd]
-        rd = int(format(int(opcode[6:8], 2)))
+        rd = int(opcode[6:8], 2)
         special_reg_arr[rd] = reg_arr[rd]
         pc += 1
     elif opcode == "01111110":
@@ -140,7 +141,7 @@ def simulator(program_name, instr_mem_file, data_mem_file):
     # Initialize pc and register array
     pc = 0
     branch = 0
-    reg_arr = [0, 0, 40, 5]
+    reg_arr = [0, 0, 0, 0]
     special_reg_arr = [0, 0, 0, 0]
 
     print(program_name)
