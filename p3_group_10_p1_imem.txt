@@ -36,7 +36,6 @@
 
 #step 1;  Note $R0 = 1, let $r0 = c = 1
 #R1 = 0, let $R1 = p' =0
-
 #step 2
 10010101   #p' <- p'+ 1
 
