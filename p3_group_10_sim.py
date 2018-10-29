@@ -72,7 +72,7 @@ def execute_operation(opcode, data_mem, reg_arr, special_reg_arr, pc, branch):
         print("LOAD")
         rd = int(opcode[5:7], 2)
         rs = int(opcode[7:8], 2)
-        # rd = mem[rs]
+        rd = data_mem[rs]
         rs_value = reg_arr[rs]
         reg_arr[rd] = int(data_mem[rs_value], 2)
         pc += 1
