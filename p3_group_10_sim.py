@@ -82,8 +82,8 @@ def execute_operation(opcode, data_mem, reg_arr, special_reg_arr, pc, branch):
         rd = int(opcode[5:7], 2)
         rs = int(opcode[7:8], 2)
         #converts into 16 bit binary value
-        rd = f"{rd:016b}"            
-        data_mem[rs] = reg_arr[rd]
+        value = f"{rd:016b}"            
+        #data_mem[rs] = reg_arr[rd]
         pc += 1
     elif opcode[1:6] == "11000":
         # left shift logic instruction
