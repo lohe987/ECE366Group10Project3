@@ -2,6 +2,8 @@ import time
 
 print("ECE 366 Group 10 Project 3 ISA Simulator")
 
+
+
 # file_to_array: Reads each line of a file into an array as elements
 # Inputs: file - file that is to be parsed
 # Outputs: return_array - array that contains each line
@@ -50,7 +52,7 @@ def execute_operation(opcode, data_mem, reg_arr, special_reg_arr, pc, branch):
         # B Instruction
         print("B")
         imm = int(opcode[4:8], 2)
-        imm_values = [0, 1, 2, 3, 4, 5, 6, 7, -8, -7, -6, -5, -4, -3, -2, 1]
+        imm_values = [0, 1, 2, 3, 4, 5, 6, 7, -8, -7, -6, -5, -4, -3, -2, -1]
         imm = imm_values[imm]
         # b instruction (branch)
         if branch == 1:
@@ -64,7 +66,7 @@ def execute_operation(opcode, data_mem, reg_arr, special_reg_arr, pc, branch):
         # the immediate number is number of lines ahead/backward pc will travel
         print("J")
         imm = int(opcode[4:8], 2)
-        imm_values = [0, 1, 2, 3, 4, 5, 6, 7, -8, -7, -6, -5, -4, -3, -2, 1]
+        imm_values = [0, 1, 2, 3, 4, 5, 6, 7, -8, -7, -6, -5, -4, -3, -2, -1]
         imm = imm_values[imm]
         pc += imm
     elif opcode[1:5] == "1010":
@@ -73,8 +75,17 @@ def execute_operation(opcode, data_mem, reg_arr, special_reg_arr, pc, branch):
         rd = int(opcode[5:7], 2)
         rs = int(opcode[7:8], 2)
         rs_value = reg_arr[rs]
-        print(rs)
-        reg_arr[rd] = int(data_mem[rs_value], 2)
+        data_value = data_mem[rs_value]
+        print("Data Value: ")
+        print(data_value)
+        # Negative Value
+        value = 0
+        if data_value[0] == "1":
+            print("NEGATIVE")
+            value = 0b1111111111111111 - int(data_value, 2) + 1
+            reg_arr[rd] = 0 - value
+        else:
+            reg_arr[rd] = int(data_mem[rs_value], 2)
         pc += 1
     elif opcode[1:5] == "1011":
         # store instruction
@@ -83,6 +94,7 @@ def execute_operation(opcode, data_mem, reg_arr, special_reg_arr, pc, branch):
         rs = int(opcode[7:8], 2)
         # converts into 16 bit binary value
         a = '{0:016b}'.format(reg_arr[rd])
+        print("16 bits")
         print(a)
         data_mem[rs] = a
         pc += 1
@@ -146,6 +158,8 @@ def execute_operation(opcode, data_mem, reg_arr, special_reg_arr, pc, branch):
         # END
         print("END")
         pc += 500
+    else:
+        pc += 1
     return [data_mem, reg_arr, special_reg_arr, pc, branch]
 
 
@@ -184,6 +198,7 @@ def simulator(program_name, instr_mem_file, data_mem_file):
 
         print(pc)
         print(reg_arr)
+        print(data_mem[2])
         time.sleep(.2)
 
     #print(instr_mem)
