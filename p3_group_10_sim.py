@@ -74,6 +74,10 @@ def execute_operation(opcode, data_mem, reg_arr, special_reg_arr, pc, branch):
         rs = int(opcode[7:8], 2)
         rs_value = reg_arr[rs]
         data_value = data_mem[rs_value]
+        # Checks if memory address is out of range
+        if rs_value < 0 or rs_value > 108:
+            print("OUT OF MEMORY BOUNDS:")
+            pc += 1
         print("Data Value: ")
         print(data_value)
         # Negative Value
@@ -210,10 +214,13 @@ def simulator(program_name, instr_mem_file, data_mem_file):
     #print(instr_mem)
     #print(data_mem)
 
-
-simulator("Program 1 : Modular Exponentiation",
+simulator("Program 0 : Simulator Testing",
           "p3_group_10_p0_imem.txt",
           "p3_group_10_dmem_A.txt")
+
+# simulator("Program 1 : Modular Exponentiation",
+#           "p3_group_10_p0_imem.txt",
+#           "p3_group_10_dmem_A.txt")
 
 #simulator("Program 2 : Best Matching Count",
           #"p3_group_10_p2_imem.txt",
