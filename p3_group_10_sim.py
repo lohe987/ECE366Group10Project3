@@ -2,8 +2,6 @@ import time
 
 print("ECE 366 Group 10 Project 3 ISA Simulator")
 
-
-
 # file_to_array: Reads each line of a file into an array as elements
 # Inputs: file - file that is to be parsed
 # Outputs: return_array - array that contains each line
@@ -81,7 +79,6 @@ def execute_operation(opcode, data_mem, reg_arr, special_reg_arr, pc, branch):
         # Negative Value
         value = 0
         if data_value[0] == "1":
-            print("NEGATIVE")
             value = 0b1111111111111111 - int(data_value, 2) + 1
             reg_arr[rd] = 0 - value
         else:
@@ -93,10 +90,19 @@ def execute_operation(opcode, data_mem, reg_arr, special_reg_arr, pc, branch):
         rd = int(opcode[5:7], 2)
         rs = int(opcode[7:8], 2)
         # converts into 16 bit binary value
-        a = '{0:016b}'.format(reg_arr[rd])
-        print("16 bits")
+        print("reg_arr value")
+        print(reg_arr[rd])
+        a = 0
+        if reg_arr[rd] < 0:
+            print("NEGATIVE STORE")
+            pos_value = 0 - reg_arr[rd]
+            a = 0b1111111111111111 - pos_value + 1
+            a = '{0:016b}'.format(a)
+        else:
+            a = '{0:016b}'.format(reg_arr[rd])
+        print("A")
         print(a)
-        data_mem[rs] = a
+        data_mem[reg_arr[rs]] = a
         pc += 1
     elif opcode[1:6] == "11000":
         # left shift logic instruction
