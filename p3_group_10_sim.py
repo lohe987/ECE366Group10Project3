@@ -1,5 +1,6 @@
-print("ECE 366 Group 10 Project 3 ISA Simulator")
+import time
 
+print("ECE 366 Group 10 Project 3 ISA Simulator")
 
 # file_to_array: Reads each line of a file into an array as elements
 # Inputs: file - file that is to be parsed
@@ -17,15 +18,16 @@ def file_to_array(file):
 def execute_operation(opcode, data_mem, reg_arr, special_reg_arr, pc, branch):
     if opcode[1:4] == "000":
         # ADD instruction
+        print("ADD")
         rd = int(opcode[4:6], 2)
         rs = int(opcode[6:8], 2)
         # rd = rd + rs
-        print(rs, rd)
         print(reg_arr)
         reg_arr[rd] += int(reg_arr[rs])
         pc += 1
     elif opcode[1:4] == "001":
         # ADDI instruction
+        print("ADDI")
         rd = int(opcode[4:6], 2)
         imm = int(opcode[6:8], 2)
         imm_values = [0, 1, -2, -1]
@@ -33,6 +35,7 @@ def execute_operation(opcode, data_mem, reg_arr, special_reg_arr, pc, branch):
         pc += 1
     elif opcode[1:4] == "010":
         # SLT instruction
+        print("SLT")
         rd = int(opcode[4:6], 2)
         rs = int(opcode[6:8], 2)
         # check if rd is smaller or not
@@ -44,6 +47,8 @@ def execute_operation(opcode, data_mem, reg_arr, special_reg_arr, pc, branch):
             branch = 0
         pc += 1
     elif opcode[1:4] == "100":
+        # B Instruction
+        print("B")
         imm = int(opcode[4:8], 2)
         imm_values = [0, 1, 2, 3, 4, 5, 6, 7, -8, -7, -6, -5, -4, -3, -2, 1]
         imm = imm_values[imm]
@@ -57,19 +62,23 @@ def execute_operation(opcode, data_mem, reg_arr, special_reg_arr, pc, branch):
         # J instruction
         # instruction for jumping number of lines to new line location in program
         # the immediate number is number of lines ahead/backward pc will travel
+        print("J")
         imm = int(opcode[4:8], 2)
         imm_values = [0, 1, 2, 3, 4, 5, 6, 7, -8, -7, -6, -5, -4, -3, -2, 1]
         imm = imm_values[imm]
         pc += imm
     elif opcode[1:5] == "1010":
         # load instruction
+        print("LOAD")
         rd = int(opcode[5:7], 2)
         rs = int(opcode[7:8], 2)
         # rd = mem[rs]
-        reg_arr[rd] = int(data_mem[rs], 2)
+        rs_value = reg_arr[rs]
+        reg_arr[rd] = int(data_mem[rs_value], 2)
         pc += 1
     elif opcode[1:5] == "1011":
         # store instruction
+        print("STORE")
         rd = int(opcode[5:7], 2)
         rs = int(opcode[7:8], 2)
         # mem[rs] = rd
@@ -78,12 +87,14 @@ def execute_operation(opcode, data_mem, reg_arr, special_reg_arr, pc, branch):
         pc += 1
     elif opcode[1:6] == "11000":
         # left shift logic instruction
+        print("LSL")
         rd = int(opcode[6:8], 2)
         # multiply the register by 2
         reg_arr[rd] *= 2
         pc += 1
     elif opcode[1:6] == "11001":
         # nxor instruction
+        print("NXOR")
         rd = int(opcode[6:7], 2)
         rs = int(opcode[7:8], 2)
         # this line below nots an xor
@@ -92,6 +103,7 @@ def execute_operation(opcode, data_mem, reg_arr, special_reg_arr, pc, branch):
     elif opcode[1:6] == "11010":
         # EQZ instruction
         # this is the instruction for checking if rd = 0
+        print("EQZ")
         rd = int(opcode[6:8], 2)
         if reg_arr[rd] == 0:
             branch = 1
@@ -101,12 +113,14 @@ def execute_operation(opcode, data_mem, reg_arr, special_reg_arr, pc, branch):
     elif opcode[1:6] == "11011":
         # COMP instruction
         # This performs the 2's complement of a number
+        print("COMP")
         rd = int(opcode[6:8], 2)
         reg_arr[rd] *= -1
         pc += 1
     elif opcode[1:6] == "11100":
         # RCVP instruction
         # This retrieves $rd from a special register $srd
+        print("RCVP")
         rd = int(opcode[6:8], 2)
         # our regular register receives specially stored values in a different array of registers
         reg_arr[rd] = special_reg_arr[rd]
@@ -114,6 +128,7 @@ def execute_operation(opcode, data_mem, reg_arr, special_reg_arr, pc, branch):
     elif opcode[1:6] == "11101":
         # RST instruction
         # this resets rd to equal 0
+        print("RST")
         rd = int(opcode[6:8], 2)
         reg_arr[rd] = 0  # reset
         pc += 1
@@ -122,11 +137,13 @@ def execute_operation(opcode, data_mem, reg_arr, special_reg_arr, pc, branch):
         # This saves value in rd to array of special registers indicated in srd
         # for example   reg_arr [0  1  2   rd]  rd is at location reg_arr[3]
         # so this "stashes" into special_reg_arr[3] as well in special_reg_arr[0 1 2 rd]
+        print("STSH")
         rd = int(opcode[6:8], 2)
         special_reg_arr[rd] = reg_arr[rd]
         pc += 1
     elif opcode == "01111110":
         # END
+        print("END")
         pc += 500
     return [data_mem, reg_arr, special_reg_arr, pc, branch]
 
@@ -163,17 +180,17 @@ def simulator(program_name, instr_mem_file, data_mem_file):
         special_reg_arr = data_set[2]
         pc = data_set[3]
         branch = data_set[4]
-        print(data_set[3])
-        print(data_set[2])
-        print(opcode)
 
+        print(pc)
+        print(reg_arr)
+        time.sleep(.2)
 
     #print(instr_mem)
     #print(data_mem)
 
 
 simulator("Program 1 : Modular Exponentiation",
-          "p3_group_10_p1_imem.txt",
+          "p3_group_10_p0_imem.txt",
           "p3_group_10_dmem_A.txt")
 
 #simulator("Program 2 : Best Matching Count",
