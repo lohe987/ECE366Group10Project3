@@ -81,8 +81,7 @@ def execute_operation(opcode, data_mem, reg_arr, special_reg_arr, pc, branch):
         print("STORE")
         rd = int(opcode[5:7], 2)
         rs = int(opcode[7:8], 2)
-        # mem[rs] = rd
-        # TODO: Convert this into a 16 bit binary value to store back into the data_mem array
+        mem[rs] = f"{rd:016b}"
         data_mem[rs] = reg_arr[rd]
         pc += 1
     elif opcode[1:6] == "11000":
