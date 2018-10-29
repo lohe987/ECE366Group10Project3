@@ -53,7 +53,7 @@ def execute_operation(opcode, data_mem, reg_arr, special_reg_arr, pc, branch):
         imm_values = [0, 1, 2, 3, 4, 5, 6, 7, -8, -7, -6, -5, -4, -3, -2, 1]
         imm = imm_values[imm]
         # b instruction (branch)
-        if branch ==  1:
+        if branch == 1:
             pc += imm
         # this instruction will branch based on SLT being true
         elif branch == 0:
@@ -72,8 +72,8 @@ def execute_operation(opcode, data_mem, reg_arr, special_reg_arr, pc, branch):
         print("LOAD")
         rd = int(opcode[5:7], 2)
         rs = int(opcode[7:8], 2)
-        rd = data_mem[rs]
         rs_value = reg_arr[rs]
+        print(rs)
         reg_arr[rd] = int(data_mem[rs_value], 2)
         pc += 1
     elif opcode[1:5] == "1011":
@@ -81,7 +81,7 @@ def execute_operation(opcode, data_mem, reg_arr, special_reg_arr, pc, branch):
         print("STORE")
         rd = int(opcode[5:7], 2)
         rs = int(opcode[7:8], 2)
-        #converts into 16 bit binary value
+        # converts into 16 bit binary value
         a = '{0:016b}'.format(reg_arr[rd])
         print(a)
         data_mem[rs] = a
