@@ -11,9 +11,12 @@ def file_to_array(file):
     # Reads in each line into the next array element, and
     # removes the newline character
     for line in file:
-        return_array.append(line.rstrip())
-    return return_array
+        line = line.partition('#')[0]
+        line = line.rstrip()
+        if line[0:1] == '1' or line[0:1] == '0':
+            return_array.append(line)
 
+    return return_array
 
 def execute_operation(opcode, data_mem, reg_arr, special_reg_arr, pc, branch):
     if opcode[1:4] == "000":
@@ -208,7 +211,7 @@ def simulator(program_name, instr_mem_file, data_mem_file):
 
         print(pc)
         print(reg_arr)
-        print(data_mem[2])
+        #print(data_mem[2])
         print(special_reg_arr)
         time.sleep(.2)
 
