@@ -143,7 +143,7 @@ def execute_operation(opcode, data_mem, reg_arr, special_reg_arr, pc, branch):
     elif opcode[1:6] == "11100":
         # RCVP instruction
         # This retrieves $rd from a special register $srd
-        print("RCVP")
+        print("RCVR")
         rd = int(opcode[6:8], 2)
         # our regular register receives specially stored values in a different array of registers
         reg_arr[rd] = special_reg_arr[rd]
@@ -164,7 +164,7 @@ def execute_operation(opcode, data_mem, reg_arr, special_reg_arr, pc, branch):
         rd = int(opcode[6:8], 2)
         special_reg_arr[rd] = reg_arr[rd]
         pc += 1
-    elif opcode == "11111111":
+    elif opcode[0:8] == "11111111":
         # END
         print("END")
         pc += 500
