@@ -121,7 +121,7 @@ def execute_operation(opcode, data_mem, reg_arr, special_reg_arr, pc, branch):
         rd = int(opcode[6:7], 2)
         rs = int(opcode[7:8], 2)
         # this line below nots an xor
-        reg_arr[rd] = not(reg_arr[rd] ^ reg_arr[rs])
+        reg_arr[rd] = ~(reg_arr[rd] ^ reg_arr[rs])
         pc += 1
     elif opcode[1:6] == "11010":
         # EQZ instruction
@@ -164,7 +164,7 @@ def execute_operation(opcode, data_mem, reg_arr, special_reg_arr, pc, branch):
         rd = int(opcode[6:8], 2)
         special_reg_arr[rd] = reg_arr[rd]
         pc += 1
-    elif opcode == "01111110":
+    elif opcode == "11111111":
         # END
         print("END")
         pc += 500
@@ -209,6 +209,7 @@ def simulator(program_name, instr_mem_file, data_mem_file):
         print(pc)
         print(reg_arr)
         print(data_mem[2])
+        print(special_reg_arr)
         time.sleep(.2)
 
     #print(instr_mem)
