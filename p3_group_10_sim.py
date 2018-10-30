@@ -203,20 +203,18 @@ def simulator(program_name, instr_mem_file, data_mem_file):
         # data_set is of the following format:
         # [data_mem, reg_arr, special_reg_arr, pc, branch]
         opcode = instr_mem[pc]
+        print("PC: ", pc)
         data_set = execute_operation(opcode, data_mem, reg_arr, special_reg_arr, pc, branch)
         data_mem = data_set[0]
         reg_arr = data_set[1]
         special_reg_arr = data_set[2]
         pc = data_set[3]
         branch = data_set[4]
-
-        print("pC: ", pc)
-        print("reg_arr: ",reg_arr)
-        #print(data_mem[2])
-        print("Data_mem[0]: ", data_mem[0])
+        print("reg_arr: " ,reg_arr)
+        print("Data_mem[2]: ", data_mem[2])
         print("special_Reg_arr: ", special_reg_arr)
         print("\n")
-        time.sleep(1)
+        #time.sleep(1)
 
     #print(instr_mem)
     #print(data_mem)
