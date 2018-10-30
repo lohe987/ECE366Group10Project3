@@ -198,7 +198,7 @@ def simulator(program_name, instr_mem_file, data_mem_file):
 
     instr_mem = file_to_array(instr_mem_input)
     data_mem = file_to_array(data_mem_input)
-
+    print(len(instr_mem))
     while pc < len(instr_mem):
         # data_set is of the following format:
         # [data_mem, reg_arr, special_reg_arr, pc, branch]
@@ -210,22 +210,24 @@ def simulator(program_name, instr_mem_file, data_mem_file):
         pc = data_set[3]
         branch = data_set[4]
 
-        print(pc)
-        print(reg_arr)
+        print("pC: ", pc)
+        print("reg_arr: ",reg_arr)
         #print(data_mem[2])
-        print(special_reg_arr)
-        time.sleep(.2)
+        print("Data_mem[0]: ", data_mem[0])
+        print("special_Reg_arr: ", special_reg_arr)
+        print("\n")
+        time.sleep(1)
 
     #print(instr_mem)
     #print(data_mem)
 
-simulator("Program 0 : Simulator Testing",
-          "p3_group_10_p0_imem.txt",
-          "p3_group_10_dmem_A.txt")
+#simulator("Program 0 : Simulator Testing",
+#          "p3_group_10_p0_imem.txt",
+#          "p3_group_10_dmem_A.txt")
 
-# simulator("Program 1 : Modular Exponentiation",
-#           "p3_group_10_p0_imem.txt",
-#           "p3_group_10_dmem_A.txt")
+simulator("Program 1 : Modular Exponentiation",
+           "p3_group_10_p1_imem.txt",
+           "p3_group_10_dmem_A.txt")
 
 #simulator("Program 2 : Best Matching Count",
           #"p3_group_10_p2_imem.txt",
