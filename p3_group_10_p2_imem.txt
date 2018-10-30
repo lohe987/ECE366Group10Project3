@@ -28,7 +28,10 @@
 00110101    #jump to done      
 01110111    # $R3 = counter = 0
 11110101    # $R1 = 0
-00111011    # go to start_count
+00110011    # Go to start_count
+00111011    # go to loop_count
+00110101    # jump to done
+00110110    # go to start_count
 00011101    #loop_count--$R3 = counter = $R3 + 1
 01100000    #loop_no_count--$R0 = $R0 << 1
 10110100    # PC = PC + 4, jump 4 instructions forward
