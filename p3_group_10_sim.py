@@ -10,6 +10,7 @@ def file_to_array(file):
     return_array = []
     # Reads in each line into the next array element, and
     # removes the newline character
+    # Ignoring all comments and indents
     for line in file:
         line = line.partition('#')[0]
         line = line.rstrip()
