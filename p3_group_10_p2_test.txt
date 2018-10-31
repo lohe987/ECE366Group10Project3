@@ -50,9 +50,9 @@
 10110111    # jump to done
 00111001    # go to loop_match
 00110110    # go to start_count
-11000101    # PC = PC + 5, jump 5 instructions forward
-11001001    # go to loop_count
-11001001    # go to loop_no_count
+00110101    # PC = PC + 5, jump 5 instructions forward
+10111001    # go to loop_count
+10111001    # go to loop_no_count
 10111011    #go to loop_match
 10110111    # jump to done
 11101000    #start_count--If $R0 == 0 then $branch = 1, else $branch = 0

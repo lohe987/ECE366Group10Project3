@@ -255,7 +255,7 @@ def simulator(program_name, instr_mem_file, data_mem_file):
 
     instr_mem = file_to_array(instr_mem_input)
     data_mem = file_to_array(data_mem_input)
-    print(len(instr_mem))
+    dic = 0
     while pc < len(instr_mem):
         # data_set is of the following format:
         # [data_mem, reg_arr, special_reg_arr, pc, branch]
@@ -272,7 +272,9 @@ def simulator(program_name, instr_mem_file, data_mem_file):
         print("MEM[4]: Highest Score ", data_mem[4])
         print("MEM[5]: Count         ", data_mem[5])
         print("\n")
+        dic += 1
         #time.sleep(.001)
+    print("Dynamic Instruction Count: ", dic)
 
     #print(instr_mem)
     #print(data_mem)
