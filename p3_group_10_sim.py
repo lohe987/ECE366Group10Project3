@@ -147,7 +147,42 @@ def execute_operation(opcode, data_mem, reg_arr, special_reg_arr, pc, branch):
         rd = int(opcode[6:7], 2)
         rs = int(opcode[7:8], 2)
         # this line below nots an xor
+        rd_value = reg_arr[rd]
+        rs_value = reg_arr[rs]
+        rd_bin = 0
+        rs_bin = 0
+        if rd_value < 0:
+            pos_value = 0 - rd_value
+            a = 0b1111111111111111 - pos_value + 1
+            rd_bin = '{0:016b}'.format(a)
+        else:
+            rd_bin = '{0:016b}'.format(reg_arr[rd])
+
+        if rs_value < 0:
+            pos_value = 0 - rs_value
+            a = 0b1111111111111111 - pos_value + 1
+            rs_bin = '{0:016b}'.format(a)
+        else:
+            rs_bin = '{0:016b}'.format(reg_arr[rs])
+
+
+        nxor_value = ~(reg_arr[rd] ^ reg_arr[rs])
+        nxor_bin = 0
+        if nxor_value < 0:
+            pos_value = 0 - nxor_value
+            a = 0b1111111111111111 - pos_value + 1
+            nxor_bin = '{0:016b}'.format(a)
+        else:
+            nxor_bin = '{0:016b}'.format(reg_arr[rd])
+
+        print("RD VALUE: ", rd_value)
+        print("RS VALUE: ", rs_value)
+        print("NXOR VAL: ", nxor_value)
+        print("RD BIN:   ", rd_bin)
+        print("RS BIN:   ", rs_bin)
+        print("NXOR BIN: ", nxor_bin)
         reg_arr[rd] = ~(reg_arr[rd] ^ reg_arr[rs])
+        print()
         pc += 1
     elif opcode[1:6] == "11010":
         # EQZ instruction
@@ -232,9 +267,10 @@ def simulator(program_name, instr_mem_file, data_mem_file):
         special_reg_arr = data_set[2]
         pc = data_set[3]
         branch = data_set[4]
-        print("reg_arr: " ,reg_arr)
-        print("Data_mem[2]: ", data_mem[2])
+        print("reg_arr: ",reg_arr)
         print("special_Reg_arr: ", special_reg_arr)
+        print("MEM[4]: Highest Score ", data_mem[4])
+        print("MEM[5]: Count         ", data_mem[5])
         print("\n")
         #time.sleep(.001)
 
@@ -247,7 +283,7 @@ def simulator(program_name, instr_mem_file, data_mem_file):
 
 # simulator("Program 1 : Modular Exponentiation",
 #            "p3_group_10_p1_imem.txt",
-#            "p3_group_10_dmem_A.txt")
+#            "p3_group_10_dmem_B.txt")
 
 simulator("Program 2 : Best Matching Count",
           "p3_group_10_p2_test.txt",
