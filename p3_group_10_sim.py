@@ -117,7 +117,7 @@ def execute_operation(opcode, data_mem, reg_arr, special_reg_arr, pc, branch):
         print("LSL")
         rd = int(opcode[6:8], 2)
         # multiply the register by 2
-        reg_arr[rd] *= 2
+        reg_arr[rd] = (reg_arr[rd] * 2) % 23767
         pc += 1
     elif opcode[1:6] == "11001":
         # nxor instruction
@@ -214,7 +214,7 @@ def simulator(program_name, instr_mem_file, data_mem_file):
         print("Data_mem[2]: ", data_mem[2])
         print("special_Reg_arr: ", special_reg_arr)
         print("\n")
-        time.sleep(.1)
+        #time.sleep(.001)
 
     #print(instr_mem)
     #print(data_mem)
