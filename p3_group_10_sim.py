@@ -124,19 +124,21 @@ def execute_operation(opcode, data_mem, reg_arr, special_reg_arr, pc, branch):
             pos_value = 0 - dec_value
             a = 0b1111111111111111 - pos_value + 1
             a = str('{0:016b}'.format(a))
+            print("A: ", a)
         else:
             a = str('{0:016b}'.format(reg_arr[rd]))
-        print("BINARY VALUE: ", a)
-        bin_value = '{0:016b}'.format(dec_value)
+        print("BINARY VALUE:  ", a)
+        bin_value = '{0:016b}'.format(int(a))
         new_bin_str = a[1:16] + "0"
-        print("bin_value:     ", str(bin_value))
+        #print("bin_value:     ", str(bin_value))
         print("new_bin_value: ", new_bin_str)
         if new_bin_str[0] == "1":
             value = 0b1111111111111111 - int(new_bin_str, 2) + 1
             reg_arr[rd] = 0 - value
         else:
             reg_arr[rd] = int(new_bin_str, 2)
-
+        print("ORIGINAL VALUE: ", dec_value)
+        print("NEW VALUE: ", reg_arr[rd])
         #reg_arr[rd] = (reg_arr[rd] * 2) % 33678
         pc += 1
     elif opcode[1:6] == "11001":
