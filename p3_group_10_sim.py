@@ -214,7 +214,7 @@ def simulator(program_name, instr_mem_file, data_mem_file):
         print("Data_mem[2]: ", data_mem[2])
         print("special_Reg_arr: ", special_reg_arr)
         print("\n")
-        #time.sleep(1)
+        time.sleep(.1)
 
     #print(instr_mem)
     #print(data_mem)
@@ -228,5 +228,5 @@ def simulator(program_name, instr_mem_file, data_mem_file):
 #            "p3_group_10_dmem_A.txt")
 
 simulator("Program 2 : Best Matching Count",
-          "p3_group_10_p2_imem.txt",
-          "p3_group_10_dmem_A.txt")
+          "p3_group_10_p2_test.txt",
+          "p3_group_10_dmem_B.txt")
