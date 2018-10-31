@@ -117,7 +117,7 @@ def execute_operation(opcode, data_mem, reg_arr, special_reg_arr, pc, branch):
         print("LSL")
         rd = int(opcode[6:8], 2)
         # multiply the register by 2
-        reg_arr[rd] = (reg_arr[rd] * 2) % 23767
+        reg_arr[rd] = (reg_arr[rd] << 1)
         pc += 1
     elif opcode[1:6] == "11001":
         # nxor instruction
