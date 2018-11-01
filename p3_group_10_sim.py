@@ -282,10 +282,10 @@ def simulator(program_name, instr_mem_file, data_mem_file):
 #          "p3_group_10_p0_imem.txt",
 #          "p3_group_10_dmem_A.txt")
 
-# simulator("Program 1 : Modular Exponentiation",
-#            "p3_group_10_p1_imem.txt",
-#            "p3_group_10_dmem_B.txt")
+simulator("Program 1 : Modular Exponentiation",
+            "p3_group_10_p1_imem.txt",
+            "p3_group_10_dmem_B.txt")
 
-simulator("Program 2 : Best Matching Count",
-          "p3_group_10_p2_imem.txt",
-          "p3_group_10_dmem_A.txt")
+#simulator("Program 2 : Best Matching Count",
+#          "p3_group_10_p2_imem.txt",
+#          "p3_group_10_dmem_A.txt")
