@@ -289,4 +289,4 @@ def simulator(program_name, instr_mem_file, data_mem_file):
 
 simulator("Program 2 : Best Matching Count",
           "p3_group_10_p2_test.txt",
-          "p3_group_10_dmem_B.txt")
+          "p3_group_10_dmem_A.txt")
