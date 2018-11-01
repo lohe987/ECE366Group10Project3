@@ -273,19 +273,41 @@ def simulator(program_name, instr_mem_file, data_mem_file):
         print("\n")
         dic += 1#increment DIC by 1 everytime we perform an instruction
         #time.sleep(.001)  --we left this at value .2 originally so we could look for bugs in our jump and branch instructions
+
+    print(program_name)
+    print(data_mem_file)
+    print("MEM[0]: P             ", data_mem[0])
+    print("MEM[1]: Q             ", data_mem[1])
+    print("MEM[2]: 6^P Mod Q     ", data_mem[2])
+    print("MEM[4]: Highest Score ", data_mem[4])
+    print("MEM[5]: Count         ", data_mem[5])
     print("Dynamic Instruction Count: ", dic)
+
+    # Writes data_mem back into file from array
+    data_mem_output = open(data_mem_file, "w")
+    for i in range(0, len(data_mem)):
+        data_mem_output.write(data_mem[i] + "\n")
 
     #print(instr_mem)
     #print(data_mem)
 #you can delete the "#" on any of these blocks of code below to see that the code runs correctly, note that both p1 and p2 work
+
 #simulator("Program 0 : Simulator Testing",
 #          "p3_group_10_p0_imem.txt",
 #          "p3_group_10_dmem_A.txt")
 
-simulator("Program 1 : Modular Exponentiation",
-            "p3_group_10_p1_imem.txt",
-            "p3_group_10_dmem_B.txt")
+# simulator("Program 1 : Modular Exponentiation",
+#            "p3_group_10_p1_imem.txt",
+#            "p3_group_10_dmem_A.txt")
 
-#simulator("Program 2 : Best Matching Count",
-#          "p3_group_10_p2_imem.txt",
-#          "p3_group_10_dmem_A.txt")
+# simulator("Program 1 : Modular Exponentiation",
+#            "p3_group_10_p1_imem.txt",
+#            "p3_group_10_dmem_B.txt")
+
+# simulator("Program 2 : Best Matching Count",
+#           "p3_group_10_p2_test.txt",
+#           "p3_group_10_dmem_A.txt")
+
+simulator("Program 2 : Best Matching Count",
+          "p3_group_10_p2_test.txt",
+          "p3_group_10_dmem_B.txt")
