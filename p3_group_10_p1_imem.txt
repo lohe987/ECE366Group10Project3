@@ -9,7 +9,7 @@
 01100000   #$R0 = 2c* 2 = 4c
 10001000   #R2 = 4c + 2c = 6c
 10110010   #PC = PC + 2, go down 2 instructions 
-10111001   #Go back to step 2
+00111001   #Go back to step 2
 01110100   #$R0 = 0
 10000010   #$R0 = $R2  = 6c
 11110110   #$R2 = 0
