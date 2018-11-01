@@ -46,15 +46,15 @@ def execute_operation(opcode, data_mem, reg_arr, special_reg_arr, pc, branch):
         rd = reg_arr[rd]
         rs = reg_arr[rs]
         if rd < rs:
-            branch = 1
+            branch = 1   #condition is true
         elif rd > rs or rd == rs:
-            branch = 0
+            branch = 0   #condition is false
         pc += 1
     elif opcode[1:4] == "100":
         # B Instruction
         print("B")
         imm = int(opcode[4:8], 2)
-        imm_values = [0, 1, 2, 3, 4, 5, 6, 7, -8, -7, -6, -5, -4, -3, -2, -1]
+        imm_values = [0, 1, 2, 3, 4, 5, 6, 7, -8, -7, -6, -5, -4, -3, -2, -1] #pass immediate from this array to be used in function
         imm = imm_values[imm]
         # b instruction (branch)
         if branch == 1:
@@ -87,9 +87,9 @@ def execute_operation(opcode, data_mem, reg_arr, special_reg_arr, pc, branch):
         # Negative Value
         value = 0
         if data_value[0] == "1":
-            value = 0b1111111111111111 - int(data_value, 2) + 1
+            value = 0b1111111111111111 - int(data_value, 2) + 1 #take 2's compliment
             reg_arr[rd] = 0 - value
-        else:
+        else:   #this if else section helped us debug errors for our load instruction
             reg_arr[rd] = int(data_mem[rs_value], 2)
         pc += 1
     elif opcode[1:5] == "1011":
@@ -100,16 +100,16 @@ def execute_operation(opcode, data_mem, reg_arr, special_reg_arr, pc, branch):
         # converts into 16 bit binary value
         print("reg_arr value")
         print(reg_arr[rd])
-        a = 0
+        a = 0#initiate a
         if reg_arr[rd] < 0:
             print("NEGATIVE STORE")
-            pos_value = 0 - reg_arr[rd]
-            a = 0b1111111111111111 - pos_value + 1
-            a = '{0:016b}'.format(a)
+            pos_value = 0 - reg_arr[rd]#this is meant store a negative value
+            a = 0b1111111111111111 - pos_value + 1#2's complement
+            a = '{0:016b}'.format(a)#formating the 2's complemented value
         else:
             a = '{0:016b}'.format(reg_arr[rd])
         print("A")
-        print(a)
+        print(a)#this is meant for debugging to show us what's going on during the runtime of this simulator
         data_mem[reg_arr[rs]] = a
         pc += 1
     elif opcode[1:6] == "11000":

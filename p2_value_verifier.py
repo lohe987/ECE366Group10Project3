@@ -1,3 +1,7 @@
+#We created this program after finishing p2 so we can make sure the S and C
+#values were correct when compared
+#In short we wanted to make sure values stored into 4 and 5 for Dmem B were in
+#fact 12 matching bits with a total 4 numbers having this count
 print("Tests the values of P2 using pure python")
 
 def file_to_array(file):
