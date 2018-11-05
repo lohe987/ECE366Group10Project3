@@ -35,5 +35,4 @@ def best_matching_count(data_mem_file_name):
     print("BEST MATCHING SCORE: ", best_matching_score)
     print("BEST MATCHING COUNT: ", best_matching_count)
 
-
-best_matching_count("p3_group_10_dmem_A.txt")
+best_matching_count("p3_group_10_dmem_D.txt")
