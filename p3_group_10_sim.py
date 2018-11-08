@@ -279,6 +279,7 @@ def simulator(program_name, instr_mem_file, data_mem_file):
     print("MEM[0]: P             ", data_mem[0])
     print("MEM[1]: Q             ", data_mem[1])
     print("MEM[2]: 6^P Mod Q     ", data_mem[2])
+    print("MEM[3]: Target Pattern", data_mem[3])
     print("MEM[4]: Highest Score ", data_mem[4])
     print("MEM[5]: Count         ", data_mem[5])
     print("Dynamic Instruction Count: ", dic)
